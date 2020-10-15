@@ -7,42 +7,46 @@ window.addEventListener('load', () => {
     let restorePushElem = JSON.parse(localStorage.getItem('savePushElem'));
 
     let addToDoList = function () {
-        for (let i = 0; i < restoreContent.length; i++) {
-            pushElem[i] = restorePushElem[i];
-            content[i] = restoreContent[i];
-            let divMain = document.createElement("div");
-            divMain.id = "main" + i;
-            divMain.style.display = "flex";
-            divMain.style.flexWrap = "Wrap";
-            let inputChek = document.createElement("input");
-            inputChek.id = "divChek" + i;
-            inputChek.type = "checkbox";
-            inputChek.className = "divChek";
-            let divToDoList = document.createElement("div");
-            if (pushElem[i] % 2 !== 0) {
-                inputChek.checked = true;
-                divToDoList.style.textDecoration = "line-through";
+        if (restoreContent !== null) {
+            for (let i = 0; i < restoreContent.length; i++) {
+                pushElem[i] = restorePushElem[i];
+                content[i] = restoreContent[i];
+                let divMain = document.createElement("div");
+                divMain.id = "main" + i;
+                divMain.style.display = "flex";
+                divMain.style.flexWrap = "Wrap";
+                let inputChek = document.createElement("input");
+                inputChek.id = "divChek" + i;
+                inputChek.type = "checkbox";
+                inputChek.className = "divChek";
+                let divToDoList = document.createElement("div");
+                if (pushElem[i] % 2 !== 0) {
+                    inputChek.checked = true;
+                    divToDoList.style.textDecoration = "line-through";
+                }
+                divToDoList.id = "toDoList" + i;
+                divToDoList.className = "toDoList";
+                let buttonDelete = document.createElement("button");
+                buttonDelete.id = "buttonDelete" + i;
+                buttonDelete.className = "buttonDelete";
+                buttonDelete.innerText = "Удалить";
+                let txt = content[i];
+                divToDoList.append(inputChek, txt);
+                divMain.append(divToDoList, buttonDelete);
+                document.getElementById("container2").append(divMain);
             }
-            divToDoList.id = "toDoList" + i;
-            divToDoList.className = "toDoList";
-            let buttonDelete = document.createElement("button");
-            buttonDelete.id = "buttonDelete" + i;
-            buttonDelete.className = "buttonDelete";
-            buttonDelete.innerText = "Удалить";
-            let txt = content[i];
-            divToDoList.append(inputChek, txt);
-            divMain.append(divToDoList, buttonDelete);
-            document.getElementById("container2").append(divMain);
         }
     }
     addToDoList();
 
-    amountOfElements = restoreContent.length;
-    for (let i = 0; i < restoreContent.length; i++) {
-        content[i] = restoreContent[i];
-        pushElem[i] = restorePushElem[i];
-
+    if (restoreContent !== null) {
+        amountOfElements = restoreContent.length;
+        for (let i = 0; i < restoreContent.length; i++) {
+            content[i] = restoreContent[i];
+            pushElem[i] = restorePushElem[i];
+        }
     }
+
 
     let buttonAddClick = function (e) {
         if (e.target.id === "buttonAdd" || e.key === "Enter") {
@@ -119,7 +123,7 @@ window.addEventListener('load', () => {
     }
 
     document.body.addEventListener('click', buttonAddClick);
-    document.body.addEventListener("keydown",buttonAddClick);
+    document.body.addEventListener("keydown", buttonAddClick);
     document.body.addEventListener('click', chekChekbox);
     document.body.addEventListener('click', pushButtonDelete);
 
